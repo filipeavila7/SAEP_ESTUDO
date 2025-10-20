@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 app = Flask(__name__)
+app.secret_key = "secreto"
 app.config.from_object("connection")
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)

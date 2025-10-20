@@ -2,7 +2,7 @@ from src import db, app
 from src.models import usuario_models, post_models, comentario_models, curtida_models
 from flask import render_template, redirect, request, url_for, jsonify
 from src import login_manager
-from flask_login import login_user, login_required, current_user
+from flask_login import login_user, login_required, current_user, logout_user
 
 
 
@@ -28,11 +28,19 @@ def login():
 
         if usuario_db and usuario_db.senha == senha:
             login_user(usuario_db)
-            print("login realizado com sucesso")
-            return redirect(url_for("index"))
-        
+            return redirect(url_for("index", msg="sucesso"))
         else:
-            print("usuario ou senha inválidos")
+            return redirect(url_for("index", msg="erro"))
+
+    return redirect(url_for("index"))
+
+
+@app.route("/logout")
+@login_required  # garante que só usuários logados podem sair
+def logout():
+    logout_user()  # termina a sessão do usuário
+    return redirect(url_for("index"))  # redireciona para a página inicial
+
 
 
 

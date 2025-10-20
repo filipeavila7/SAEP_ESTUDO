@@ -1,33 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <!DOCTYPE html>
-    <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+        <link rel="stylesheet" href="static/style.css">
     </head>
     <body>
-        <header>
-            <img src="" alt="logo">
+        <header class="cabecalho">
+            <img src alt="logo">
             <h1>PET AMIGOS</h1>
-            <button>Login</button>
+            {% if current_user.is_authenticated %}
+            <!-- Usuário logado → mostra botão de logout -->
+            <a href="{{ url_for('logout') }}">
+                <button>Logout</button>
+            </a>
+            {% else %}
+            <!-- Usuário não logado → mostra botão de login -->
+            <button id="abrirModal">Login</button>
+            {% endif %}
         </header>
-        <nav>
-            <ul>
-                <li><a href=""></a></li>
-                <li><a href=""></a></li>
-                <li><a href=""></a></li>
-                <li><a href=""></a></li>
+
+        <nav class="nav-bar">
+            <ul class="nav-links">
+                <li><a href>Home</a></li>
+                <li><a href>Produtos</a></li>
+                <li><a href>Pets</a></li>
+                <li><a href>Serviços</a></li>
+                <li><a href>Contato</a></li>
             </ul>
         </nav>
+
+        <section class="home-section">
+            <div class="home-content">
+                Bem vindo ao Pet Amigos
+            </div>
+            <button>Conhecer</button>
+
+        </section>
+
+        <section class="produtos-sec">
+            <div class="card-prod">
+                <img src alt>
+                <h3>nome</h3>
+                <p>valor</p>
+            </div>
+            <div class="card-prod">
+                <img src alt>
+                <h3>nome</h3>
+                <p>valor</p>
+            </div>
+            <div class="card-prod">
+                <img src alt>
+                <h3>nome</h3>
+                <p>valor</p>
+            </div>
+            <div class="card-prod">
+                <img src alt>
+                <h3>nome</h3>
+                <p>valor</p>
+            </div>
+            <div class="card-prod">
+                <img src alt>
+                <h3>nome</h3>
+                <p>valor</p>
+            </div>
+            <div class="card-prod">
+                <img src alt>
+                <h3>nome</h3>
+                <p>valor</p>
+            </div>
+            <div class="card-prod">
+                <img src alt>
+                <h3>nome</h3>
+                <p>valor</p>
+            </div>
+            <div class="card-prod">
+                <img src alt>
+                <h3>nome</h3>
+                <p>valor</p>
+            </div>
+        </section>
+
+        <!-- Modal -->
+        <div id="modalLogin" class="modal">
+            <div class="modal-conteudo">
+                <span class="fechar">&times;</span>
+                <h2>Entrar</h2>
+                <form action="{{url_for('login')}}" method="post">
+                    <input type="email" name="email" placeholder="E-mail"
+                        required>
+                    <input type="password" name="senha" placeholder="Senha"
+                        required>
+                    <button type="submit">Entrar</button>
+                </form>
+            </div>
+        </div>
+
+        <script src="static/script.js"></script>
     </body>
-    </html>
-</body>
 </html>
