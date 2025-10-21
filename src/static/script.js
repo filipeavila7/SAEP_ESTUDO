@@ -55,3 +55,57 @@ const modal = document.getElementById("modalLogin");
     setTimeout(() => div.remove(), 3000);
   }
 
+
+
+// Função para curtir/descurtir
+async function curtirPost(postId, btn) {
+  try {
+    const response = await fetch(`/curtir/${postId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      if (data.curtida) {
+        btn.src = "static/img/curtido.png";
+        btn.classList.add('curtido');
+      } else {
+        btn.src = "static/img/heart.png";
+        btn.classList.remove('curtido');
+      }
+    } else {
+      console.error(data.mensagem);
+    }
+  } catch (error) {
+    console.error('Erro ao curtir post:', error);
+  }
+}
+
+// Quando a página carregar
+window.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const res = await fetch("/curtidas_usuario");
+    const curtidas = await res.json(); // { post_id: true/false }
+
+    document.querySelectorAll(".curtir-btn").forEach(btn => {
+      const postId = parseInt(btn.dataset.postId);
+
+      // Atualiza o coração conforme o banco
+      if (curtidas[postId]) {
+        btn.src = "static/img/curtido.png";
+        btn.classList.add("curtido");
+      } else {
+        btn.src = "static/img/heart.png";
+        btn.classList.remove("curtido");
+      }
+
+      // Adiciona clique
+      btn.addEventListener("click", () => curtirPost(postId, btn));
+    });
+
+  } catch (error) {
+    console.error("Erro ao carregar curtidas:", error);
+  }
+});

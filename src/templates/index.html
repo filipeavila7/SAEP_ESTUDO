@@ -39,46 +39,50 @@
 
         </section>
 
-        <section class="produtos-sec">
-            <div class="card-prod">
-                <img src alt>
-                <h3>nome</h3>
-                <p>valor</p>
-            </div>
-            <div class="card-prod">
-                <img src alt>
-                <h3>nome</h3>
-                <p>valor</p>
-            </div>
-            <div class="card-prod">
-                <img src alt>
-                <h3>nome</h3>
-                <p>valor</p>
-            </div>
-            <div class="card-prod">
-                <img src alt>
-                <h3>nome</h3>
-                <p>valor</p>
-            </div>
-            <div class="card-prod">
-                <img src alt>
-                <h3>nome</h3>
-                <p>valor</p>
-            </div>
-            <div class="card-prod">
-                <img src alt>
-                <h3>nome</h3>
-                <p>valor</p>
-            </div>
-            <div class="card-prod">
-                <img src alt>
-                <h3>nome</h3>
-                <p>valor</p>
-            </div>
-            <div class="card-prod">
-                <img src alt>
-                <h3>nome</h3>
-                <p>valor</p>
+        <section class="prod-section">
+            <h2>Produtos</h2>
+            <div class="prod-container">
+
+                <div class="card-prod">
+                    <img src alt>
+                    <h3>nome</h3>
+                    <p>valor</p>
+                </div>
+                <div class="card-prod">
+                    <img src alt>
+                    <h3>nome</h3>
+                    <p>valor</p>
+                </div>
+                <div class="card-prod">
+                    <img src alt>
+                    <h3>nome</h3>
+                    <p>valor</p>
+                </div>
+                <div class="card-prod">
+                    <img src alt>
+                    <h3>nome</h3>
+                    <p>valor</p>
+                </div>
+                <div class="card-prod">
+                    <img src alt>
+                    <h3>nome</h3>
+                    <p>valor</p>
+                </div>
+                <div class="card-prod">
+                    <img src alt>
+                    <h3>nome</h3>
+                    <p>valor</p>
+                </div>
+                <div class="card-prod">
+                    <img src alt>
+                    <h3>nome</h3>
+                    <p>valor</p>
+                </div>
+                <div class="card-prod">
+                    <img src alt>
+                    <h3>nome</h3>
+                    <p>valor</p>
+                </div>
             </div>
         </section>
 
@@ -97,6 +101,58 @@
             </div>
         </div>
 
-        <script src="static/script.js"></script>
+
+        <section class="pet-sec">
+            <h2>Pets</h2>
+            <div class="pet-container">
+                <div class="card-pet">
+                    <div class="pet-content">
+                        <img src="static/img/gato.jpg" alt="">
+                        <div class="acoes">
+                            <img  src="static/img/heart.png" class="curtir-btn" onclick="curtirPost(1, this)">
+                            <img  src="static/img/coment.png" alt="comentario">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-pet">
+                    <div class="pet-content">
+                        <img src="static/img/raca-de-cachorro-que-parece-um-lobo.jpg" alt="">
+                    </div>
+                </div>
+                <div class="card-pet">
+                    <div class="pet-content">
+                        <img src="static/img/Pastor-3x4.jpg" alt="">
+                    </div>
+                </div>
+                <div class="card-pet">
+                    <div class="pet-content">
+                        <img src="static/img/preto.jpeg" alt="">
+                    </div>
+                </div>
+                <div class="card-pet">
+                    <div class="pet-content">
+                        <img src="static/img/image.png" alt="">
+                    </div>
+                </div>
+                <div class="card-pet">
+                    <div class="pet-content">
+                        <img src="static/img/guia_racas_golden_retriever_dogvibe.jpg" alt="">
+                    </div>
+                </div>
+                <div class="card-pet">
+                    <div class="pet-content">
+                        <img src="static/img/cachorro-que-parece-lobo.jpg" alt="">
+                    </div>
+                </div>
+                <div class="card-pet">
+                    <div class="pet-content">
+                        <img src="static/img/gato2.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
     </body>
 </html>

@@ -9,13 +9,23 @@ from flask_login import login_user, login_required, current_user, logout_user
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    posts = post_models.Post.query.all()
+    return render_template("index.html", posts=posts)
+
+
+@app.route("/teste")
+def teste():
+    return render_template("teste.html")
 
 
 # função de carregar usuário
 @login_manager.user_loader
 def load_user(user_id):
     return usuario_models.Usuario.query.get(int(user_id))
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    return jsonify({"success": False, "mensagem": "Você precisa estar logado."}), 401
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -81,31 +91,33 @@ def add_comentario(post_id):
 
 
 
+
+
 @app.route("/curtir/<int:post_id>", methods=["POST"])
 @login_required
 def curtir_post(post_id):
-    # Verifica se o post existe
     post = post_models.Post.query.get(post_id)
     if not post:
         return jsonify({"success": False, "mensagem": "Post não encontrado."}), 404
 
-    # Verifica se o usuário já curtiu o post
     curtida = curtida_models.Curtida.query.filter_by(
         usuario_id=current_user.id,
         post_id=post.id
     ).first()
 
     if curtida:
-        # Usuário já curtiu → remove a curtida (descurtir)
-        db.session.delete(curtida)
+        # Ao invés de deletar, apenas inverte o boolean
+        curtida.curtida = not curtida.curtida
         db.session.commit()
-        return jsonify({"success": True, "curtida": False, "mensagem": "Curtida removida!"})
+        if curtida.curtida:
+            return jsonify({"success": True, "curtida": True, "mensagem": "Post curtido!"})
+        else:
+            return jsonify({"success": True, "curtida": False, "mensagem": "Curtida removida!"})
     else:
-        # Usuário não curtiu → cria a curtida
         nova_curtida = curtida_models.Curtida(
             usuario_id=current_user.id,
             post_id=post.id,
-            curtida=True  # opcional, só para marcar que é curtido
+            curtida=True
         )
         db.session.add(nova_curtida)
         db.session.commit()
