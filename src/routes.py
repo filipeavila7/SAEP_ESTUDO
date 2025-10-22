@@ -3,6 +3,8 @@ from src.models import usuario_models, post_models, comentario_models, curtida_m
 from flask import render_template, redirect, request, url_for, jsonify
 from src import login_manager
 from flask_login import login_user, login_required, current_user, logout_user
+from sqlalchemy.orm import joinedload
+from sqlalchemy import func
 
 
 
@@ -128,6 +130,74 @@ def curtir_post(post_id):
         
 
         
+@app.route("/curtidas_usuario", methods=["GET"])
+@login_required
+def listar_curtidas_usuario():
+    # Busca todas as curtidas do usuário logado
+    curtidas = (
+        db.session.query(
+            curtida_models.Curtida.post_id,
+            curtida_models.Curtida.curtida
+        )
+        .filter_by(usuario_id=current_user.id)
+        .all()
+    )
+
+    # Monta um dicionário no formato { post_id: True/False }
+    resultado = {
+        c.post_id: c.curtida for c in curtidas
+    }
+
+    return jsonify(resultado)
+
+
+
+
+
+
+@app.route("/total_curtidas", methods=["GET"])
+def total_curtidas():
+    # Consulta o total de curtidas por post (curtida=True)
+    resultados = (
+        db.session.query(
+            curtida_models.Curtida.post_id,
+            func.count(curtida_models.Curtida.id).label("total")
+        )
+        .filter_by(curtida=True)  # apenas curtidas ativas
+        .group_by(curtida_models.Curtida.post_id)
+        .all()
+    )
+
+    # Converte em dicionário {post_id: total}
+    total_por_post = {post_id: total for post_id, total in resultados}
+
+    return jsonify(total_por_post)
+
+
+
+
+
+@app.route("/comentarios", methods=["GET"])
+def listar_comentarios():
+    # Busca todos os comentários, já trazendo o usuário relacionado
+    comentarios = (
+        comentario_models.Comentario.query
+        .options(joinedload(comentario_models.Comentario.usuario))
+        .all()
+    )
+
+    resultado = []
+    for c in comentarios:
+        resultado.append({
+            "id": c.id,
+            "post_id": c.post_id,
+            "usuario_id": c.usuario_id,
+            "usuario_nome": getattr(c.usuario, "nome", "Usuário desconhecido"),
+            "texto": c.texto,
+            "eh_do_logado": (current_user.is_authenticated and c.usuario_id == current_user.id)
+        })
+
+    return jsonify(resultado)
 
 
 

@@ -7,7 +7,8 @@
         <link rel="stylesheet" href="static/style.css">
     </head>
     <body>
-        <header class="cabecalho">
+        <header class="header">
+            <div class="cabecalho">
             <img src alt="logo">
             <h1>PET AMIGOS</h1>
             {% if current_user.is_authenticated %}
@@ -19,9 +20,10 @@
             <!-- Usuário não logado → mostra botão de login -->
             <button id="abrirModal">Login</button>
             {% endif %}
-        </header>
+            </div>
 
-        <nav class="nav-bar">
+
+            <nav class="nav-bar">
             <ul class="nav-links">
                 <li><a href>Home</a></li>
                 <li><a href>Produtos</a></li>
@@ -30,6 +32,9 @@
                 <li><a href>Contato</a></li>
             </ul>
         </nav>
+        </header>
+
+        
 
         <section class="home-section">
             <div class="home-content">
@@ -101,58 +106,162 @@
             </div>
         </div>
 
-
         <section class="pet-sec">
             <h2>Pets</h2>
             <div class="pet-container">
-                <div class="card-pet">
+                <div class="card-pet" data-post-id="1">
                     <div class="pet-content">
-                        <img src="static/img/gato.jpg" alt="">
+                        <img src="static/img/gato.jpg" alt>
                         <div class="acoes">
-                            <img  src="static/img/heart.png" class="curtir-btn" onclick="curtirPost(1, this)">
-                            <img  src="static/img/coment.png" alt="comentario">
+                            <img src="static/img/heart.png" class="curtir-btn"
+                                onclick="curtirPost(1, this)">
+                            <span class="total-curtidas">0</span>
+                            <img src="static/img/coment.png" alt="comentario">
                         </div>
                     </div>
                 </div>
-                
-                <div class="card-pet">
+
+                <div class="card-pet" data-post-id="2">
                     <div class="pet-content">
-                        <img src="static/img/raca-de-cachorro-que-parece-um-lobo.jpg" alt="">
+                        <img
+                            src="static/img/raca-de-cachorro-que-parece-um-lobo.jpg"
+                            alt>
+                    </div>
+                    <div class="acoes">
+                        <img src="static/img/heart.png" class="curtir-btn"
+                            onclick="curtirPost(2, this)">
+                        <span class="total-curtidas">0</span>
+                        <img src="static/img/coment.png" alt="comentario">
                     </div>
                 </div>
-                <div class="card-pet">
+                <div class="card-pet" data-post-id="3">
                     <div class="pet-content">
-                        <img src="static/img/Pastor-3x4.jpg" alt="">
+                        <img src="static/img/Pastor-3x4.jpg" alt>
+                    </div>
+                    <div class="acoes">
+                        <img src="static/img/heart.png" class="curtir-btn"
+                            onclick="curtirPost(3, this)">
+                        <span class="total-curtidas">0</span>
+                        <img src="static/img/coment.png" alt="comentario">
                     </div>
                 </div>
-                <div class="card-pet">
+                <div class="card-pet" data-post-id="4">
                     <div class="pet-content">
-                        <img src="static/img/preto.jpeg" alt="">
+                        <img src="static/img/preto.jpeg" alt>
+                    </div>
+                    <div class="acoes">
+                        <img src="static/img/heart.png" class="curtir-btn"
+                            onclick="curtirPost(4, this)">
+                        <span class="total-curtidas">0</span>
+                        <img src="static/img/coment.png" alt="comentario">
                     </div>
                 </div>
-                <div class="card-pet">
+                <div class="card-pet" data-post-id="5">
                     <div class="pet-content">
-                        <img src="static/img/image.png" alt="">
+                        <img src="static/img/image.png" alt>
+                    </div>
+                    <div class="acoes">
+                        <img src="static/img/heart.png" class="curtir-btn"
+                            onclick="curtirPost(5, this)">
+                        <span class="total-curtidas">0</span>
+                        <img src="static/img/coment.png" alt="comentario">
                     </div>
                 </div>
-                <div class="card-pet">
+                <div class="card-pet" data-post-id="6">
                     <div class="pet-content">
-                        <img src="static/img/guia_racas_golden_retriever_dogvibe.jpg" alt="">
+                        <img
+                            src="static/img/guia_racas_golden_retriever_dogvibe.jpg"
+                            alt>
+                    </div>
+                    <div class="acoes">
+                        <img src="static/img/heart.png" class="curtir-btn"
+                            onclick="curtirPost(6, this)">
+                        <span class="total-curtidas">0</span>
+                        <img src="static/img/coment.png" alt="comentario">
                     </div>
                 </div>
-                <div class="card-pet">
+                <div class="card-pet" data-post-id="7">
                     <div class="pet-content">
-                        <img src="static/img/cachorro-que-parece-lobo.jpg" alt="">
+                        <img src="static/img/cachorro-que-parece-lobo.jpg" alt>
+                    </div>
+                    <div class="acoes">
+                        <img src="static/img/heart.png" class="curtir-btn"
+                            onclick="curtirPost(7, this)">
+                        <span class="total-curtidas">0</span>
+                        <img src="static/img/coment.png" alt="comentario">
                     </div>
                 </div>
-                <div class="card-pet">
+                <div class="card-pet" data-post-id="8">
                     <div class="pet-content">
-                        <img src="static/img/gato2.jpg" alt="">
+                        <img src="static/img/gato2.jpg" alt>
+                    </div>
+                    <div class="acoes">
+                        <img src="static/img/heart.png" class="curtir-btn"
+                            onclick="curtirPost(8, this)">
+                        <span class="total-curtidas">0</span>
+                        <img src="static/img/coment.png" alt="comentario">
                     </div>
                 </div>
             </div>
         </section>
 
         <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <script>
+            //  Carregar curtidas ao abrir a página
+            (async function carregarCurtidas() {
+                console.log("🔄 Iniciando fetch de curtidas...");
+                
+                try {
+                    const response = await fetch("/curtidas_usuario");
+                    if (!response.ok) throw new Error("Erro na requisição");
+
+                    const curtidas = await response.json();
+                    console.log("Dados recebidos:", curtidas);
+
+                    // Atualiza os corações dos cards
+                    document.querySelectorAll(".card-pet").forEach(card => {
+                        const postId = card.dataset.postId;
+                        const btn = card.querySelector(".curtir-btn");
+
+                        if (!btn) return;
+
+                        if (curtidas[postId]) {
+                            btn.src = "static/img/curtido.png";
+                            btn.classList.add("curtido");
+                            console.log(`❤️ Post ${postId} está curtido`);
+                        } else {
+                            btn.src = "static/img/heart.png";
+                            btn.classList.remove("curtido");
+                            console.log(`🤍 Post ${postId} não está curtido`);
+                        }
+                    });
+
+                } catch (error) {
+                    console.error("💥 Erro ao carregar curtidas:", error);
+                }
+            })();
+
+
+                async function atualizarTotais() {
+                try {
+                    const response = await fetch("/total_curtidas");
+                    const totais = await response.json();
+                    console.log("📊 Totais recebidos:", totais);
+
+                    document.querySelectorAll(".card-pet").forEach(card => {
+                        const postId = card.dataset.postId; // string
+                        const span = card.querySelector(".total-curtidas");
+                        if (span) {
+                            span.textContent = totais[postId] || 0;
+                        }
+                    });
+                } catch (err) {
+                    console.error("💥 Erro ao atualizar totais:", err);
+                }
+            }
+
+            // chama a função para atualizar quando a página carrega
+            atualizarTotais();
+        </script>
     </body>
 </html>
