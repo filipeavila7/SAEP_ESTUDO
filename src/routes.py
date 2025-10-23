@@ -56,18 +56,25 @@ def logout():
 
 
 
-
 @app.route("/comentario/<int:post_id>", methods=["POST"])
 @login_required
 def add_comentario(post_id):
+    print("\n🚀 Rota /comentario chamada!")
+    print(f"➡️ post_id recebido: {post_id}")
+    print(f"➡️ Usuário logado ID: {current_user.id}")
+
     # Pega o texto enviado pelo front
     texto = request.form.get("texto", "").strip()
+    print(f"📝 Texto recebido: '{texto}'")
+
     if not texto:
+        print("❌ Comentário vazio!")
         return jsonify({"success": False, "mensagem": "O comentário não pode estar vazio."}), 400
 
     # Verifica se o post existe
     post = post_models.Post.query.get(post_id)
     if not post:
+        print("⚠️ Post não encontrado!")
         return jsonify({"success": False, "mensagem": "Post não encontrado."}), 404
 
     # Cria o comentário
@@ -77,8 +84,16 @@ def add_comentario(post_id):
         texto=texto
     )
 
+    print("🧱 Criando comentário:", comentario)
     db.session.add(comentario)
-    db.session.commit()
+
+    try:
+        db.session.commit()
+        print("✅ Comentário salvo com sucesso!")
+    except Exception as e:
+        db.session.rollback()
+        print("💥 ERRO ao salvar no banco:", e)
+        return jsonify({"success": False, "mensagem": "Erro ao salvar comentário."}), 500
 
     return jsonify({
         "success": True,
@@ -176,13 +191,13 @@ def total_curtidas():
 
 
 
-
-@app.route("/comentarios", methods=["GET"])
-def listar_comentarios():
-    # Busca todos os comentários, já trazendo o usuário relacionado
+@app.route("/comentarios/<int:post_id>", methods=["GET"])
+def listar_comentarios(post_id):
+    # Busca apenas os comentários do post específico
     comentarios = (
         comentario_models.Comentario.query
         .options(joinedload(comentario_models.Comentario.usuario))
+        .filter_by(post_id=post_id)
         .all()
     )
 
@@ -194,17 +209,9 @@ def listar_comentarios():
             "usuario_id": c.usuario_id,
             "usuario_nome": getattr(c.usuario, "nome", "Usuário desconhecido"),
             "texto": c.texto,
-            "eh_do_logado": (current_user.is_authenticated and c.usuario_id == current_user.id)
+            "eh_do_logado": (
+                current_user.is_authenticated and c.usuario_id == current_user.id
+            )
         })
 
     return jsonify(resultado)
-
-
-
-
-
-
-        
-    
-
-

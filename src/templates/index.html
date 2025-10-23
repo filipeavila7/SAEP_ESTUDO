@@ -9,32 +9,29 @@
     <body>
         <header class="header">
             <div class="cabecalho">
-            <img src alt="logo">
-            <h1>PET AMIGOS</h1>
-            {% if current_user.is_authenticated %}
-            <!-- Usuário logado → mostra botão de logout -->
-            <a href="{{ url_for('logout') }}">
-                <button>Logout</button>
-            </a>
-            {% else %}
-            <!-- Usuário não logado → mostra botão de login -->
-            <button id="abrirModal">Login</button>
-            {% endif %}
+                <img src alt="logo">
+                <h1>PET AMIGOS</h1>
+                {% if current_user.is_authenticated %}
+                <!-- Usuário logado → mostra botão de logout -->
+                <a href="{{ url_for('logout') }}">
+                    <button>Logout</button>
+                </a>
+                {% else %}
+                <!-- Usuário não logado → mostra botão de login -->
+                <button id="abrirModal">Login</button>
+                {% endif %}
             </div>
 
-
             <nav class="nav-bar">
-            <ul class="nav-links">
-                <li><a href>Home</a></li>
-                <li><a href>Produtos</a></li>
-                <li><a href>Pets</a></li>
-                <li><a href>Serviços</a></li>
-                <li><a href>Contato</a></li>
-            </ul>
-        </nav>
+                <ul class="nav-links">
+                    <li><a href>Home</a></li>
+                    <li><a href>Produtos</a></li>
+                    <li><a href>Pets</a></li>
+                    <li><a href>Serviços</a></li>
+                    <li><a href>Contato</a></li>
+                </ul>
+            </nav>
         </header>
-
-        
 
         <section class="home-section">
             <div class="home-content">
@@ -116,7 +113,8 @@
                             <img src="static/img/heart.png" class="curtir-btn"
                                 onclick="curtirPost(1, this)">
                             <span class="total-curtidas">0</span>
-                            <img src="static/img/coment.png" alt="comentario">
+                            <img src="static/img/coment.png" alt="comentario"
+                                onclick="abrirComentarios(1)">
                         </div>
                     </div>
                 </div>
@@ -131,7 +129,8 @@
                         <img src="static/img/heart.png" class="curtir-btn"
                             onclick="curtirPost(2, this)">
                         <span class="total-curtidas">0</span>
-                        <img src="static/img/coment.png" alt="comentario">
+                        <img src="static/img/coment.png" alt="comentario"
+                            onclick="abrirComentarios(2)">
                     </div>
                 </div>
                 <div class="card-pet" data-post-id="3">
@@ -142,7 +141,8 @@
                         <img src="static/img/heart.png" class="curtir-btn"
                             onclick="curtirPost(3, this)">
                         <span class="total-curtidas">0</span>
-                        <img src="static/img/coment.png" alt="comentario">
+                        <img src="static/img/coment.png" alt="comentario"
+                            onclick="abrirComentarios(3)">
                     </div>
                 </div>
                 <div class="card-pet" data-post-id="4">
@@ -153,7 +153,8 @@
                         <img src="static/img/heart.png" class="curtir-btn"
                             onclick="curtirPost(4, this)">
                         <span class="total-curtidas">0</span>
-                        <img src="static/img/coment.png" alt="comentario">
+                        <img src="static/img/coment.png" alt="comentario"
+                            onclick="abrirComentarios(4)">
                     </div>
                 </div>
                 <div class="card-pet" data-post-id="5">
@@ -164,7 +165,8 @@
                         <img src="static/img/heart.png" class="curtir-btn"
                             onclick="curtirPost(5, this)">
                         <span class="total-curtidas">0</span>
-                        <img src="static/img/coment.png" alt="comentario">
+                        <img src="static/img/coment.png" alt="comentario"
+                            onclick="abrirComentarios(5)">
                     </div>
                 </div>
                 <div class="card-pet" data-post-id="6">
@@ -177,7 +179,8 @@
                         <img src="static/img/heart.png" class="curtir-btn"
                             onclick="curtirPost(6, this)">
                         <span class="total-curtidas">0</span>
-                        <img src="static/img/coment.png" alt="comentario">
+                        <img src="static/img/coment.png" alt="comentario"
+                            onclick="abrirComentarios(6)">
                     </div>
                 </div>
                 <div class="card-pet" data-post-id="7">
@@ -188,7 +191,8 @@
                         <img src="static/img/heart.png" class="curtir-btn"
                             onclick="curtirPost(7, this)">
                         <span class="total-curtidas">0</span>
-                        <img src="static/img/coment.png" alt="comentario">
+                        <img src="static/img/coment.png" alt="comentario"
+                            onclick="abrirComentarios(7)">
                     </div>
                 </div>
                 <div class="card-pet" data-post-id="8">
@@ -199,11 +203,27 @@
                         <img src="static/img/heart.png" class="curtir-btn"
                             onclick="curtirPost(8, this)">
                         <span class="total-curtidas">0</span>
-                        <img src="static/img/coment.png" alt="comentario">
+                        <img src="static/img/coment.png" alt="comentario"
+                            onclick="abrirComentarios(8)">
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Modal de comentários -->
+        <div id="modalComentarios" class="modal-comentario" data-post-id>
+            <div class="modal-conteudo">
+                <span class="fechar-comentario">&times;</span>
+                <h2>Comentários</h2>
+                <div id="comentarios-lista"></div>
+
+                <form id="form-comentario">
+                    <textarea id="comentario-texto"
+                        placeholder="Escreva um comentário..."></textarea>
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
 
         <script src="{{ url_for('static', filename='script.js') }}"></script>
         <script>
@@ -262,6 +282,138 @@
 
             // chama a função para atualizar quando a página carrega
             atualizarTotais();
+
+
+
+
+
+
+
+                    // 📩 Enviar comentário
+                    document.getElementById('form-comentario').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    console.log("🚀 Evento de envio de comentário acionado!");
+
+                    const modal = document.getElementById('modalComentarios'); // ✅ usar o mesmo ID que abrirComentarios
+                    if (!modal) {
+                        console.error("❌ Modal de comentários não encontrado!");
+                        return;
+                    }
+
+                    const postId = modal.dataset.postId;
+                    if (!postId) {
+                        console.error("❌ Post ID não definido no modal!");
+                        return;
+                    }
+
+                    const textoInput = document.getElementById('comentario-texto');
+                    const texto = textoInput.value.trim();
+
+                    console.log("🆔 Post ID:", postId);
+                    console.log("📝 Texto digitado:", texto);
+
+                    if (!texto) {
+                        console.warn("⚠️ Nenhum texto foi digitado!");
+                        alert("Escreva algo antes de enviar!");
+                        return;
+                    }
+
+                    const formData = new FormData();
+                    formData.append("texto", texto);
+
+                    console.log("📦 Dados preparados para envio:", [...formData.entries()]);
+
+                    try {
+                        console.log(`📡 Enviando requisição para /comentario/${postId}...`);
+
+                        const response = await fetch(`/comentario/${postId}`, {
+                            method: "POST",
+                            body: formData
+                        });
+
+                        console.log("📬 Resposta recebida:", response);
+
+                        if (!response.ok) {
+                            console.error("❌ Erro HTTP:", response.status, response.statusText);
+                            alert("Erro na comunicação com o servidor.");
+                            return;
+                        }
+
+                        const data = await response.json();
+                        console.log("📨 Dados retornados do backend:", data);
+
+                        if (data.success) {
+                            console.log("✅ Comentário adicionado com sucesso!");
+                            textoInput.value = ""; // limpa o campo
+                            abrirComentarios(postId); // 🔄 atualiza lista
+                        } else {
+                            console.warn("⚠️ Erro ao adicionar comentário:", data.mensagem);
+                            alert(data.mensagem || "Erro ao enviar comentário.");
+                        }
+
+                    } catch (error) {
+                        console.error("💥 Erro inesperado ao enviar comentário:", error);
+                        alert("Erro inesperado. Veja o console para mais detalhes.");
+                    }
+                });
+
+
+
+                function abrirComentarios(postId) {
+                const modal = document.getElementById('modalComentarios');
+                const lista = document.getElementById('comentarios-lista');
+
+                // Mostra mensagem de carregamento
+                lista.innerHTML = "<p>Carregando...</p>";
+
+                // Abre o modal
+                modal.style.display = "flex";
+
+                // Atualiza o postId no modal
+                modal.dataset.postId = postId;
+
+                // Busca os comentários via fetch
+                fetch(`/comentarios/${postId}`)
+                    .then(res => res.json())
+                    .then(comentarios => {
+                        if (comentarios.length) {
+                            // Lista os comentários
+                            lista.innerHTML = comentarios
+                                .map(c => `<p><strong>${c.usuario_nome}:</strong> ${c.texto}</p>`)
+                                .join('');
+                        } else {
+                            lista.innerHTML = "<p>Seja o primeiro a comentar!</p>";
+                        }
+                        console.log("📄 Comentários carregados:", comentarios);
+                    })
+                    .catch(err => {
+                        console.error("💥 Erro ao carregar comentários:", err);
+                        lista.innerHTML = "<p>Erro ao carregar comentários.</p>";
+                    });
+
+                    // Seleciona o modal e o botão de fechar
+
+                    const fecharBtn = document.querySelector('.fechar-comentario');
+
+                    if (fecharBtn && modal) {
+                        fecharBtn.onclick = () => {
+                            modal.style.display = 'none';
+                        };
+                    }
+
+                    // Fecha ao clicar fora do modal
+                    window.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            modal.style.display = 'none';
+                        }
+                    });
+
+                
+            }
+
+
+
         </script>
     </body>
 </html>

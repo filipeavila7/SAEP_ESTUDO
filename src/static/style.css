@@ -263,3 +263,131 @@
 span{
     color: white;
 }
+
+
+/* Modal fundo escuro semi-transparente */
+.modal-comentario {
+    display: none; /* inicial fechado */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* escurece o fundo */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* Conteúdo do modal */
+.modal-conteudo {
+    background-color: #fff;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Botão de fechar */
+.fechar-comentario {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.2s ease;
+}
+
+.fechar-comentario:hover {
+    color: #ff5555;
+}
+
+/* Cabeçalho */
+.modal-conteudo h2 {
+    margin: 0;
+    font-size: 22px;
+    text-align: center;
+    color: #222;
+}
+
+/* Lista de comentários */
+#comentarios-lista {
+    max-height: 250px;
+    overflow-y: auto;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#comentarios-lista p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Form de envio */
+#form-comentario {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Textarea */
+#comentario-texto {
+    resize: none;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 100%;
+    min-height: 60px;
+    transition: border-color 0.2s ease;
+}
+
+#comentario-texto:focus {
+    outline: none;
+    border-color: #007BFF;
+}
+
+/* Botão enviar */
+#form-comentario button {
+    align-self: flex-end;
+    padding: 8px 18px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+#form-comentario button:hover {
+    background-color: #0056b3;
+}
+
+/* Scroll do modal */
+.modal-comentario::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-comentario::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.modal-comentario::-webkit-scrollbar-track {
+    background: transparent;
+}
