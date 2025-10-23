@@ -1,6 +1,6 @@
 // Aguarda o DOM estar completamente carregado antes de executar QUALQUER código
-document.addEventListener('DOMContentLoaded', async function() {
-  
+document.addEventListener('DOMContentLoaded', async function () {
+
   console.log("✅ DOM carregado! Iniciando scripts...");
 
   // ========== MODAL DE LOGIN ==========
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   // ========== CARREGAR CURTIDAS ==========
   console.log("🔄 Iniciando fetch de curtidas...");
-  
+
   try {
     const response = await fetch("/curtidas_usuario");
     if (!response.ok) throw new Error("Erro na requisição");
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   // ========== ENVIAR COMENTÁRIO ==========
   const formComentario = document.getElementById('form-comentario');
-  
+
   if (formComentario) {
     formComentario.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -144,6 +144,13 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         console.log("📬 Resposta recebida:", response);
 
+        // ⚠️ Verifica se o usuário está deslogado
+        if (response.status === 401) {
+          const data = await response.json();
+          alert(data.mensagem || "Você precisa estar logado para comentar!");
+          return;
+        }
+
         if (!response.ok) {
           console.error("❌ Erro HTTP:", response.status, response.statusText);
           alert("Erro na comunicação com o servidor.");
@@ -182,7 +189,22 @@ async function curtirPost(postId, btn) {
       headers: { 'Content-Type': 'application/json' }
     });
 
+    // ⚠️ Caso o usuário não esteja logado
+    if (response.status === 401) {
+      const data = await response.json();
+      console.warn("⚠️ Usuário não autenticado:", data.mensagem);
+
+      // Exibe alerta e abre o modal de login
+      alert(data.mensagem || "Você precisa estar logado para curtir!");
+      const modalLogin = document.getElementById("modalLogin");
+      if (modalLogin) modalLogin.style.display = "flexS";
+      return; // Para a execução aqui
+    }
+
+
     const data = await response.json();
+
+
 
     if (data.success) {
       if (data.curtida) {
